@@ -1,22 +1,20 @@
-package CourierTests;
+package courier_tests;
 
-import Steps.OrderSteps;
-import io.restassured.RestAssured;
+import steps.OrderSteps;
 import io.restassured.response.Response;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-public class GetOrdersTest {
+public class GetOrdersTest extends BaseTest{
 
     OrderSteps orderSteps = new OrderSteps();
 
     @Test
     public void getOrdersList() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
         Response response = orderSteps.getOrders();
         response.then().assertThat()
-                .body("orders", notNullValue())
-                .and()
-                .statusCode(200);
+                .statusCode(200)
+                .body("orders", notNullValue());
+
     }
 }

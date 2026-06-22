@@ -1,4 +1,4 @@
-package Steps;
+package steps;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
@@ -24,5 +24,13 @@ public class CourierSteps {
                 .body(courier)
                 .when()
                 .post("/api/v1/courier/login");
+    }
+
+    @Step("Удалить курьера")
+    public Response deleteCourier(int courierId) {
+        return given()
+                .header("Content-type", "application/json")
+                .when()
+                .delete("/api/v1/courier/" + courierId);
     }
 }
