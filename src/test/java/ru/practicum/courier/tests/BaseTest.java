@@ -1,4 +1,4 @@
-package courier_tests;
+package ru.practicum.courier.tests;
 
 import io.restassured.RestAssured;
 import org.junit.Before;

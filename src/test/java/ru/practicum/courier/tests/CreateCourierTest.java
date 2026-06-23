@@ -1,13 +1,16 @@
-package courier_tests;
+package ru.practicum.courier.tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
-import pojo.CourierID;
-import steps.CourierSteps;
+import ru.practicum.pojo.CourierID;
+import ru.practicum.steps.CourierSteps;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
-import pojo.NewCourier;
+import ru.practicum.pojo.NewCourier;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.apache.http.HttpStatus.*;
 
 public class CreateCourierTest extends BaseTest {
     NewCourier courier;
@@ -27,6 +30,8 @@ public class CreateCourierTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Создание курьера")
+    @Description("Проверка успешного создания нового курьера")
     public void addCourier() {
         Response response = courierSteps.createCourier(courier);
         courierId = courierSteps.loginCourier(
@@ -34,11 +39,13 @@ public class CreateCourierTest extends BaseTest {
                         .path("id");
         response.then()
                 .assertThat()
-                .statusCode(201)
+                .statusCode(SC_CREATED)
                 .body("ok", equalTo(true));
     }
 
     @Test
+    @DisplayName("Создание двух одинаковых курьеров")
+    @Description("Проверка ошибки при создании второго курьера с одинаковыми данными")
     public void doubleAddCourier() {
         courierSteps.createCourier(courier);
         courierId = courierSteps.loginCourier(
@@ -47,38 +54,43 @@ public class CreateCourierTest extends BaseTest {
         Response response = courierSteps.createCourier(courier);
         response.then()
                 .assertThat()
-                .statusCode(409)
+                .statusCode(SC_CONFLICT)
                 .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
     }
 
     @Test
+    @DisplayName("Создание курьера без логина")
+    @Description("Проверка ошибки при создании курьера без заполненого поля login")
     public void addCourierWithoutLogin() {
         courier.setLogin(null);
         Response response = courierSteps.createCourier(courier);
         response.then()
                 .assertThat()
-                .statusCode(400)
+                .statusCode(SC_BAD_REQUEST)
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @Test
+    @DisplayName("Создание курьера без пароля")
+    @Description("Проверка ошибки при создании курьера без заполненого поля password")
     public void addCourierWithoutPassword() {
         courier.setPassword(null);
         Response response = courierSteps.createCourier(courier);
         response.then()
                 .assertThat()
-                .statusCode(400)
+                .statusCode(SC_BAD_REQUEST)
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 
     @Test
-    //Тест в Postman падает с тойже ошибкой
+    @DisplayName("Создание курьера без имени")
+    @Description("Проверка ошибки при создании курьера без заполненого поля firstName")
     public void addCourierWithoutFirstName() {
         courier.setFirstName(null);
         Response response = courierSteps.createCourier(courier);
         response.then()
                 .assertThat()
-                .statusCode(400)
+                .statusCode(SC_BAD_REQUEST)
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 }

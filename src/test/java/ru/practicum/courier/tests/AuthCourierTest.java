@@ -1,14 +1,17 @@
-package courier_tests;
+package ru.practicum.courier.tests;
 
-import steps.CourierSteps;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
+import ru.practicum.steps.CourierSteps;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
-import pojo.CourierID;
+import ru.practicum.pojo.CourierID;
 import org.junit.After;
-import pojo.NewCourier;
+import ru.practicum.pojo.NewCourier;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.apache.http.HttpStatus.*;
 
 public class AuthCourierTest extends BaseTest {
     NewCourier courier;
@@ -23,7 +26,7 @@ public class AuthCourierTest extends BaseTest {
 
         Response response = courierSteps.createCourier(courier);
 
-        if (response.statusCode() == 201) {
+        if (response.statusCode() == SC_CREATED) {
             Response loginResponse = courierSteps.loginCourier(loginCourier);
             courierId = loginResponse.path("id");
         }
@@ -37,52 +40,61 @@ public class AuthCourierTest extends BaseTest {
     }
 
     @Test
+    @DisplayName("Авторизация курьера с корректными данными")
+    @Description("Проверка успешной авторизации существующего курьера")
     public void loginCourier() {
         Response response = courierSteps.loginCourier(loginCourier);
         response.then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(SC_OK)
                 .body("id", notNullValue());
     }
 
     @Test
+    @DisplayName("Авторизация курьера с некорректным логином")
+    @Description("Проверка ошибки авторизации с неверным логином")
     public void loginCourierIncorrectLogin() {
         loginCourier.setLogin("UchihaLOGIN");
         Response response = courierSteps.loginCourier(loginCourier);
         response.then()
                 .assertThat()
-                .statusCode(404)
+                .statusCode(SC_NOT_FOUND)
                 .body("message", equalTo("Учетная запись не найдена"));
     }
 
     @Test
+    @DisplayName("Авторизация курьера с некорректным паролем")
+    @Description("Проверка ошибки авторизации с неверным паролем")
     public void loginCourierIncorrectPassword() {
         loginCourier.setPassword("123457");
         Response response = courierSteps.loginCourier(loginCourier);
         response.then()
                 .assertThat()
-                .statusCode(404)
+                .statusCode(SC_NOT_FOUND)
                 .body("message", equalTo("Учетная запись не найдена"));
     }
 
     @Test
+    @DisplayName("Авторизация курьера без логина")
+    @Description("Проверка ошибки авторизации с пустым полем login")
     public void loginCourierWithoutLogin() {
         loginCourier.setLogin(null);
         Response response = courierSteps.loginCourier(loginCourier);
         response.then()
                 .assertThat()
-                .statusCode(400)
+                .statusCode(SC_BAD_REQUEST)
                 .body("message", equalTo("Недостаточно данных для входа"));
     }
 
     @Test
-    //Тест в Postman падает с тойже ошибкой
+    @DisplayName("Авторизация курьера без пароля")
+    @Description("Проверка ошибки авторизации с пустым полем password")
     public void loginCourierWithoutPassword() {
         loginCourier.setPassword(null);
         Response response = courierSteps.loginCourier(loginCourier);
         response.then()
                 .assertThat()
-                .statusCode(400)
+                .statusCode(SC_BAD_REQUEST)
                 .body("message", equalTo("Недостаточно данных для входа"));
     }
 }

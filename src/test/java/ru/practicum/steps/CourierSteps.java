@@ -1,10 +1,11 @@
-package steps;
+package ru.practicum.steps;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import pojo.CourierID;
-import pojo.NewCourier;
+import ru.practicum.pojo.CourierID;
+import ru.practicum.pojo.NewCourier;
 import static io.restassured.RestAssured.given;
+import static ru.practicum.endpoints.*;
 
 public class CourierSteps {
 
@@ -14,7 +15,7 @@ public class CourierSteps {
                 .header("Content-type", "application/json")
                 .body(courier)
                 .when()
-                .post("/api/v1/courier");
+                .post(createCourier);
     }
 
     @Step("Авторизовать курьера")
@@ -23,7 +24,7 @@ public class CourierSteps {
                 .header("Content-type", "application/json")
                 .body(courier)
                 .when()
-                .post("/api/v1/courier/login");
+                .post(loginCourier);
     }
 
     @Step("Удалить курьера")
@@ -31,6 +32,6 @@ public class CourierSteps {
         return given()
                 .header("Content-type", "application/json")
                 .when()
-                .delete("/api/v1/courier/" + courierId);
+                .delete(deleteCourier + courierId);
     }
 }

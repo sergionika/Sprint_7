@@ -1,4 +1,4 @@
-package pojo;
+package ru.practicum.pojo;
 
 public class NewCourier {
     private String login;
@@ -12,7 +12,7 @@ public class NewCourier {
     }
 
     public String getLogin() {
-        return this.login;
+        return login;
     }
 
     public void setLogin(String login) {
@@ -20,7 +20,7 @@ public class NewCourier {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
@@ -28,7 +28,7 @@ public class NewCourier {
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {

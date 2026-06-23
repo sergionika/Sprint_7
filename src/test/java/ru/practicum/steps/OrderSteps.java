@@ -1,9 +1,11 @@
-package steps;
+package ru.practicum.steps;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import pojo.NewOrder;
+import ru.practicum.pojo.NewOrder;
 import static io.restassured.RestAssured.given;
+import static ru.practicum.endpoints.createOrder;
+import static ru.practicum.endpoints.getOrder;
 
 public class OrderSteps {
 
@@ -13,7 +15,7 @@ public class OrderSteps {
                 .header("Content-type", "application/json")
                 .body(order)
                 .when()
-                .post("/api/v1/orders");
+                .post(createOrder);
     }
 
     @Step("Получить список заказов")
@@ -21,7 +23,7 @@ public class OrderSteps {
         return given()
                 .header("Content-type", "application/json")
                 .when()
-                .get("/api/v1/orders");
+                .get(getOrder);
     }
 }
 

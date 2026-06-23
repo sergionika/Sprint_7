@@ -1,4 +1,4 @@
-package pojo;
+package ru.practicum.pojo;
 
 import java.util.List;
 
@@ -13,7 +13,9 @@ public class NewOrder {
     private String comment;
     private List<String> color;
 
-    public NewOrder(String firstName, String lastName, String address, int metroStation, String phone, int rentTime, String deliveryDate, String comment, List<String> color) {
+    public NewOrder(String firstName, String lastName, String address, int metroStation,
+                    String phone, int rentTime, String deliveryDate, String comment,
+                    List<String> color) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -26,7 +28,7 @@ public class NewOrder {
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -34,7 +36,7 @@ public class NewOrder {
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
@@ -42,7 +44,7 @@ public class NewOrder {
     }
 
     public String getAddress() {
-        return this.address;
+        return address;
     }
 
     public void setAddress(String address) {
@@ -50,7 +52,7 @@ public class NewOrder {
     }
 
     public int getMetroStation() {
-        return this.metroStation;
+        return metroStation;
     }
 
     public void setMetroStation(int metroStation) {
@@ -58,7 +60,7 @@ public class NewOrder {
     }
 
     public String getPhone() {
-        return this.phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
@@ -66,7 +68,7 @@ public class NewOrder {
     }
 
     public int getRentTime() {
-        return this.rentTime;
+        return rentTime;
     }
 
     public void setRentTime(int rentTime) {
@@ -74,7 +76,7 @@ public class NewOrder {
     }
 
     public String getDeliveryDate() {
-        return this.deliveryDate;
+        return deliveryDate;
     }
 
     public void setDeliveryDate(String deliveryDate) {
@@ -82,7 +84,7 @@ public class NewOrder {
     }
 
     public String getComment() {
-        return this.comment;
+        return comment;
     }
 
     public void setComment(String comment) {
@@ -90,7 +92,7 @@ public class NewOrder {
     }
 
     public List<String> getColor() {
-        return this.color;
+        return color;
     }
 
     public void setColor(List<String> color) {
